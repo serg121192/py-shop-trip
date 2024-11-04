@@ -8,7 +8,7 @@ from app.additional_funcs import (create_instances,
 
 
 def shop_trip() -> None:
-    with open("config.json", "r") as c:
+    with open("app/config.json", "r") as c:
         config = json.load(c)
     fuel_price = config["FUEL_PRICE"]
     customers = config["customers"]

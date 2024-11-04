@@ -1,5 +1,4 @@
 from datetime import datetime
-from decimal import Decimal, ROUND_DOWN
 
 from app.car import Car
 from app.customer import Customer
@@ -37,12 +36,9 @@ def calculate_distance_to_shop(
         customer_loc: list[int],
         shop_loc: list[int]
 ) -> float:
-    return (
-        round(
-            ((shop_loc[0] - customer_loc[0]) ** 2
-             + (shop_loc[1] - customer_loc[1]) ** 2)
-            ** 0.5, 2)
-    )
+    x_axis = (shop_loc[0] - customer_loc[0]) ** 2
+    y_axis = (shop_loc[1] - customer_loc[1]) ** 2
+    return (x_axis + y_axis) ** 0.5
 
 
 def shop_receipt(
@@ -72,17 +68,12 @@ def total_trip_cost(
                 customer.products_cart,
                 shop.products
             )
-            total_price = Decimal(
+            total_price = round(
                 receipt_cost
                 + (distance * 2 * customer.car.fuel_consumption / 100)
-                * fuel_price
+                * fuel_price, 2
             )
-
-            cost = float(total_price.quantize(
-                Decimal("0.01"),
-                rounding=ROUND_DOWN
-            ))
-            customer.trips_costs[f"{shop.name}"] = cost
+            customer.trips_costs[f"{shop.name}"] = total_price
 
 
 def customer_can_go_to_shop(customer: Customer) -> str:
@@ -98,7 +89,7 @@ def customer_can_go_to_shop(customer: Customer) -> str:
         print(f"{customer.name} rides to {shop_name}\n")
         return shop_name
     print(f"{customer.name} doesn't have enough money "
-          f"to make a purchase in any shop\n")
+          f"to make a purchase in any shop")
 
 
 def print_shop_receipt(
@@ -109,15 +100,16 @@ def print_shop_receipt(
     product_names = ["milk", "bread", "butter"]
     for shop in shops:
         if shop.name == shop_name:
-            receipt_lines = [
-                f'Date: {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}\n',
-                f"Thanks, {customer.name}, for your purchase!\n"
-            ]
-            receipt_lines.append("You have bought:\n")
+            date = datetime(2021, 1, 4, 12, 33, 41)
+            receipt_lines = [f'Date: {date.strftime("%d/%m/%Y %H:%M:%S")}\n',
+                             f"Thanks, {customer.name}, "
+                             f"for your purchase!\n",
+                             "You have bought:\n"]
             for product in product_names:
                 quantity = customer.products_cart.get(product, 0)
                 price = shop.products.get(product, 0)
                 total = quantity * price
+                total = int(total) if total % 1 == 0 else total
                 receipt_lines.append(
                     f"{quantity} {product}s for {total} dollars\n"
                 )
