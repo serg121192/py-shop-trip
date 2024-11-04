@@ -111,7 +111,7 @@ def print_shop_receipt(
         if shop.name == shop_name:
             receipt_lines = [
                 f'Date: {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}\n',
-                f'Thanks, {customer.name}, for your purchase!\n'
+                f"Thanks, {customer.name}, for your purchase!\n"
             ]
             receipt_lines.append("You have bought:\n")
             for product in product_names:
@@ -119,11 +119,11 @@ def print_shop_receipt(
                 price = shop.products.get(product, 0)
                 total = quantity * price
                 receipt_lines.append(
-                    f'{quantity} {product}s for {total} dollars\n'
+                    f"{quantity} {product}s for {total} dollars\n"
                 )
             total_cost = shop_receipt(customer.products_cart, shop.products)
             receipt_lines.append(
-                f'Total cost is {total_cost} dollars\n'
+                f"Total cost is {total_cost} dollars\n"
             )
             receipt_lines.append("See you again!\n")
             print("".join(receipt_lines))
