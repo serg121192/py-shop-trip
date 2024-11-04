@@ -45,7 +45,7 @@ def calculate_distance_to_shop(
     )
 
 
-def calculate_shop_receipt(
+def shop_receipt(
         customers_cart: dict,
         shop_price: dict
 ) -> float:
@@ -68,7 +68,7 @@ def total_trip_cost(
                 customer.location,
                 shop.location
             )
-            receipt_cost = calculate_shop_receipt(
+            receipt_cost = shop_receipt(
                 customer.products_cart,
                 shop.products
             )
@@ -121,11 +121,9 @@ def print_shop_receipt(
                 f'{customer.products_cart["butter"]} butters for '
                 f'{customer.products_cart["butter"] * shop.products["butter"]}'
                 f' dollars\n'
-                f"Total cost is {(
-                    calculate_shop_receipt(
-                        customer.products_cart,
-                        shop.products)
-                )} dollars\n"
+                f"Total cost is "
+                f"{shop_receipt(customer.products_cart, shop.products)}"
+                f" dollars\n"
                 f"See you again!\n"
             )
 
