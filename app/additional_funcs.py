@@ -76,7 +76,7 @@ def total_trip_cost(
             customer.trips_costs[f"{shop.name}"] = total_price
 
 
-def customer_can_go_to_shop(customer: Customer) -> str:
+def customer_can_go_to_shop(customer: Customer) -> str | None:
     print(f"{customer.name} has {customer.money} dollars")
     for shop in customer.trips_costs:
         print(f"{customer.name}'s trip to the {shop} "
@@ -97,7 +97,7 @@ def print_shop_receipt(
         shops: list[Shop],
         shop_name: str
 ) -> None:
-    product_names = ["milk", "bread", "butter"]
+    product_names = [product for product in customer.products_cart]
     for shop in shops:
         if shop.name == shop_name:
             date = datetime(2021, 1, 4, 12, 33, 41)
