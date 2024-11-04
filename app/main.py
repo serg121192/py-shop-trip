@@ -23,7 +23,3 @@ def shop_trip() -> None:
                 shops_list,
                 trip_to_shop)
             taking_back_home(customer, min(customer.trips_costs.values()))
-
-
-if __name__ == "__main__":
-    shop_trip()

@@ -106,26 +106,27 @@ def print_shop_receipt(
         shops: list[Shop],
         shop_name: str
 ) -> None:
+    product_names = ["milk", "bread", "butter"]
     for shop in shops:
         if shop.name == shop_name:
-            print(
-                f"Date: {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}\n"
-                f"Thanks, {customer.name}, for your purchase!\n"
-                "You have bought:\n"
-                f'{customer.products_cart["milk"]} milks for '
-                f'{customer.products_cart["milk"] * shop.products["milk"]} '
-                f'dollars\n'
-                f'{customer.products_cart["bread"]} breads for '
-                f'{customer.products_cart["bread"] * shop.products["bread"]} '
-                f'dollars\n'
-                f'{customer.products_cart["butter"]} butters for '
-                f'{(customer.products_cart["butter"] * shop.products["butter"])}'
-                f' dollars\n'
-                f"Total cost is "
-                f"{shop_receipt(customer.products_cart, shop.products)}"
-                f" dollars\n"
-                f"See you again!\n"
+            receipt_lines = [
+                f'Date: {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}\n',
+                f'Thanks, {customer.name}, for your purchase!\n'
+            ]
+            receipt_lines.append("You have bought:\n")
+            for product in product_names:
+                quantity = customer.products_cart.get(product, 0)
+                price = shop.products.get(product, 0)
+                total = quantity * price
+                receipt_lines.append(
+                    f'{quantity} {product}s for {total} dollars\n'
+                )
+            total_cost = shop_receipt(customer.products_cart, shop.products)
+            receipt_lines.append(
+                f'Total cost is {total_cost} dollars\n'
             )
+            receipt_lines.append("See you again!\n")
+            print("".join(receipt_lines))
 
 
 def taking_back_home(customer: Customer, total_price: float) -> None:
