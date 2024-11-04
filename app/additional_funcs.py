@@ -121,11 +121,11 @@ def print_shop_receipt(
                 f'{customer.products_cart["butter"]} butters for '
                 f'{customer.products_cart["butter"] * shop.products["butter"]}'
                 f' dollars\n'
-                f"Total cost is {calculate_shop_receipt(
-                    customer.products_cart,
-                    shop.products
-                )
-                } dollars\n"
+                f"Total cost is {(
+                    calculate_shop_receipt(
+                        customer.products_cart,
+                        shop.products)
+                )} dollars\n"
                 f"See you again!\n"
             )
 
